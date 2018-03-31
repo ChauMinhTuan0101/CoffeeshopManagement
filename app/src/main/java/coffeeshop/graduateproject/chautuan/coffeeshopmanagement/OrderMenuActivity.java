@@ -33,7 +33,7 @@ import retrofit2.Response;
  * Created by chautuan on 3/7/18.
  */
 
-public class OrderMenu extends AppCompatActivity {
+public class OrderMenuActivity extends AppCompatActivity {
     private List<MenuItem> lstMenuItem = new ArrayList<>();
     private MenuItemsAdapter menuItemsAdapter;
     private String api_key;
@@ -52,14 +52,14 @@ public class OrderMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_main);
         SharedPreferences infosave = getSharedPreferences("my_data", MODE_PRIVATE);
-
+        SharedPreferences tablenumber = getSharedPreferences("tableNumber", MODE_PRIVATE);
+        String number = tablenumber.getString("numbertable","1");
+        int usingTable = Integer.valueOf(number);
         ButterKnife.bind(this);
         apiService = ApiClient.getClient().create(ApiInterface.class);
-
-
         api_key = infosave.getString("api", "");
 
-        Call<ResponseInfomation> callNewOrder = apiService.createOrder(api_key,2,4,1,"non");
+        Call<ResponseInfomation> callNewOrder = apiService.createOrder(api_key,2,4,usingTable,"non");
         callNewOrder.enqueue(new Callback<ResponseInfomation>() {
             @Override
             public void onResponse(Call<ResponseInfomation> call, Response<ResponseInfomation> response) {
@@ -79,7 +79,7 @@ public class OrderMenu extends AppCompatActivity {
             public void onResponse(Call<LatestOrder> call, Response<LatestOrder> response) {
                 LatestOrder latest = response.body();
                 latestOrder = latest.getOrderID();
-//                            Toast.makeText(OrderMenu.this, String.valueOf(latestOrder), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(OrderMenuActivity.this, String.valueOf(latestOrder), Toast.LENGTH_SHORT).show();
                 Log.i("LatestOrder Get: ",String.valueOf(latestOrder));
             }
 
@@ -89,8 +89,6 @@ public class OrderMenu extends AppCompatActivity {
 
             }
         });
-
-
         Call<List<MenuItem>> call = apiService.getMenuItems(api_key);
         call.enqueue(new Callback<List<MenuItem>>() {
             @Override
@@ -110,6 +108,7 @@ public class OrderMenu extends AppCompatActivity {
 
             }
         });
+
 
         menuItemsAdapter = new MenuItemsAdapter(lstMenuItem);
         mRecyclerView.setHasFixedSize(true);
@@ -133,7 +132,7 @@ public class OrderMenu extends AppCompatActivity {
                         public void onResponse(Call<OrderDetail> call, Response<OrderDetail> response) {
 
 
-                            Toast.makeText(OrderMenu.this, "Order Complete", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(OrderMenuActivity.this, "Order Complete", Toast.LENGTH_SHORT).show();
                             Log.i("Response From Server:", response.body().toString());
                         }
 

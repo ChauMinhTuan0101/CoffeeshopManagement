@@ -42,7 +42,7 @@ public class MenuActivity extends AppCompatActivity {
     @OnClick(R.id.btnOrder)
     public void Order()
     {
-        Intent intent = new Intent(getApplicationContext(),OrderMenu.class);
+        Intent intent = new Intent(getApplicationContext(),ChooseTableActivity.class);
         startActivity(intent);
     }
 

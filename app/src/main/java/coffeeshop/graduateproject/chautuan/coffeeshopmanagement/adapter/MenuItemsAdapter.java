@@ -37,33 +37,15 @@ import static android.content.Context.MODE_PRIVATE;
 public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyViewHolder> {
     private List<MenuItem> listMenuItem = new ArrayList<>();
 
-    ApiInterface apiService;
 
     public List<OrderDetail> selectedList = new ArrayList<>();
-//    public class MyViewHolder extends RecyclerView.ViewHolder {
-//        public TextView title, year, genre;
-//
-//        public MyViewHolder(View view) {
-//            super(view);
-//            title = (TextView) view.findViewById(R.id.title);
-//            genre = (TextView) view.findViewById(R.id.genre);
-//            year = (TextView) view.findViewById(R.id.year);
-//        }
-//    }
-
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        //@BindView(R.id.tvItemName)
         public TextView tvItemName;
-        //@BindView(R.id.tvItemPrice)
         public TextView tvItemPrice;
-        //@BindView(R.id.tvQuantity)
         public TextView tvQuantity;
-        //@BindView(R.id.btnPlus)
         public Button btnPlus;
-        //@BindView(R.id.btnMinus)
         public Button btnMinus;
-        //@BindView(R.id.btnAdd)
         public Button btnAdd;
         int latestID;
         int itemID;
@@ -121,17 +103,9 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyVi
                             Log.e("Latest Order Error :",t.getLocalizedMessage());
                         }
                     });
-
-
                 }
             });
-
-
-
-
         }
-
-        //public void generateQuery()
     }
 
     public MenuItemsAdapter(List<MenuItem> menuItemList)
@@ -144,6 +118,7 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyVi
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item_listview,parent,false);
         return new MyViewHolder(itemView);
     }
+
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
@@ -163,12 +138,9 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyVi
                 selectedList.add(od);
             }
         });
-
-
-
-
-
     }
+
+
     @Override
     public int getItemCount() {
         return listMenuItem.size();

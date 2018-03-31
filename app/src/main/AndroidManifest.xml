@@ -27,8 +27,9 @@
 
         </activity>
         <activity android:name=".MenuActivity"></activity>
-        <activity android:name=".OrderMenu"></activity>
+        <activity android:name=".OrderMenuActivity"></activity>
         <activity android:name=".AddMenuItemActitivy"></activity>
+        <activity android:name=".ChooseTableActivity"></activity>
     </application>
 
 </manifest>

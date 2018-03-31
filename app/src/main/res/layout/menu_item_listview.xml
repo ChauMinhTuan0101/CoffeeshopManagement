@@ -22,7 +22,6 @@
         android:text="ItemPrice"
         android:textColor="#FF0000"
         android:textSize="18dp"/>
-vv
     <TextView
         android:id="@+id/tvItemName"
         android:layout_width="wrap_content"
