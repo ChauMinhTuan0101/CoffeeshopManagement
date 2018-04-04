@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiInterface;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.R;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.bus.MessageEvent;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.LatestOrder;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.MenuItem;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.OrderDetail;
@@ -39,6 +42,8 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyVi
 
 
     public List<OrderDetail> selectedList = new ArrayList<>();
+    public long totalPrice;
+    public Button btnAddInAdapter;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tvItemName;
@@ -52,6 +57,7 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyVi
         ApiInterface apiService;
         List<OrderDetail> lstOrderDetail;
 
+
         public MyViewHolder(final View itemView) {
 
             super(itemView);
@@ -64,6 +70,7 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyVi
             btnPlus = itemView.findViewById(R.id.btnPlus);
             btnMinus = itemView.findViewById(R.id.btnMinus);
             btnAdd = itemView.findViewById(R.id.btnAdd);
+            btnAddInAdapter = btnAdd;
             lstOrderDetail = new ArrayList<>();
             btnPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -116,6 +123,7 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item_listview,parent,false);
+
         return new MyViewHolder(itemView);
     }
 
@@ -136,6 +144,14 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyVi
                 od.setItemPrice(menuItem.getItemPrice());
                 od.setQuantity(Integer.parseInt(holder.tvQuantity.getText().toString()));
                 selectedList.add(od);
+
+                totalPrice+= (menuItem.getItemPrice() * od.getQuantity());
+
+                EventBus.getDefault().post(new MessageEvent(totalPrice));
+
+                Log.i("total price", String.valueOf(totalPrice));
+
+
             }
         });
     }

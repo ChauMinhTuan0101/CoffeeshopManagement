@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
                 {
                     Toast.makeText(MainActivity.this, b.getBartenderName(), Toast.LENGTH_LONG).show();
                     Log.i("Bartender Name",b.getBartenderName());
-                    //txtView.setText(b.getBartenderName());
 
                 }
 

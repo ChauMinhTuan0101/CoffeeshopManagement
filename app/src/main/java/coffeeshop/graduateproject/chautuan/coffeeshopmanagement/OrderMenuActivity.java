@@ -11,7 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +26,7 @@ import butterknife.ButterKnife;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiClient;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiInterface;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.adapter.MenuItemsAdapter;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.bus.MessageEvent;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.LatestOrder;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ResponseInfomation;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.MenuItem;
@@ -46,6 +52,12 @@ public class OrderMenuActivity extends AppCompatActivity {
 
     @BindView(R.id.btnPlaceOrder)
     Button btnPlaceOrder;
+
+    @BindView(R.id.edtTotalPrice)
+    EditText edtTotalPrice;
+
+    //Button btnAddInAdapter;
+    long totalPrice;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,10 +129,7 @@ public class OrderMenuActivity extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         mRecyclerView.setAdapter(menuItemsAdapter);
-
-
         lstOrder = menuItemsAdapter.selectedList;
-
         btnPlaceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +160,33 @@ public class OrderMenuActivity extends AppCompatActivity {
 
 
 
+
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent event)
+    {
+        totalPrice = event.ad;
+        edtTotalPrice.setText("Total Price: " + String.valueOf(menuItemsAdapter.totalPrice));
+
+    }
+
+    /**
+     * Start and Stop EventBus
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
 
     }
 }

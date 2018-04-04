@@ -13,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HEAD;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -22,6 +23,11 @@ import retrofit2.http.POST;
 
 public interface ApiInterface {
 
+    @FormUrlEncoded
+    @POST("changestatus")
+    Call<ResponseInfomation> changeTableStatus(@Header("Authorization") String authToken,
+                                               @Field("status") int status,
+                                               @Field("id") int id);
 
     @GET("gettable")
     Call<List<Table>> getTable();

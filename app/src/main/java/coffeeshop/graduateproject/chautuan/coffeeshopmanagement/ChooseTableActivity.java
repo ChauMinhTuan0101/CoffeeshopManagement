@@ -50,16 +50,14 @@ public class ChooseTableActivity extends AppCompatActivity {
                     listTable.add(i);
                     Log.i("table: ", String.valueOf(item.getTableID()));
                 }
-
             }
             @Override
             public void onFailure(Call<List<Table>> call, Throwable t) {
-
                 Log.e("get table error",t.getLocalizedMessage());
             }
         });
-        Log.i("item count activity: ",String.valueOf(listTable.size()));
 
+        Log.i("item count activity: ",String.valueOf(listTable.size()));
         tableItemAdapter = new TableItemAdapter(listTable);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -67,6 +65,5 @@ public class ChooseTableActivity extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         mRecyclerView.setAdapter(tableItemAdapter);
-
     }
 }

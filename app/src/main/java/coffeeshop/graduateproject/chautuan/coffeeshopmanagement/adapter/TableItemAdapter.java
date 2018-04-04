@@ -63,7 +63,7 @@ public class TableItemAdapter extends RecyclerView.Adapter<TableItemAdapter.MyVi
         {
             holder.tvStatus.setTextColor(Color.GREEN);
             holder.tvStatus.setText("Available");
-        }   
+        }
         if(table.getTableStatus() == 1)
         {
             holder.tvStatus.setTextColor(Color.RED);
