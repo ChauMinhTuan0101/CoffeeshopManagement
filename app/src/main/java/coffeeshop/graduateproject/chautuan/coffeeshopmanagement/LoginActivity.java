@@ -70,13 +70,19 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = infosave.edit();
                     editor.putString("username", res.getName());
                     editor.putString("api", res.getApiKey());
-
+                    editor.putInt("userid", res.getId()); // get user id
                     editor.commit();
 
-
-                    Intent intent = new Intent(getApplicationContext(),MenuActivity.class);
-                    startActivity(intent);
-
+                    if(res.getType() == 1)// phục vụ
+                    {
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(intent);
+                    }
+                    if(res.getType() == 2)
+                    {
+                        Intent intent = new Intent(getApplicationContext(),BartenderMenu.class);
+                        startActivity(intent);
+                    }
                 }
                 else{
                     Toast.makeText(LoginActivity.this, "Login Failed, Please Check Your Account Again.", Toast.LENGTH_SHORT).show();

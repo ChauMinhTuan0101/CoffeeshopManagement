@@ -1,25 +1,33 @@
 package coffeeshop.graduateproject.chautuan.coffeeshopmanagement.adapter;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.OrderMenuActivity;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiClient;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiInterface;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.R;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.bus.MessageEvent;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.OrderDetail;
-import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.Table;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ResponseInfomation;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+
 
 /**
  * Created by chautuan on 4/4/18.
@@ -27,8 +35,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ListOrderedAdapter extends RecyclerView.Adapter<ListOrderedAdapter.MyViewHolder> {
     List<OrderDetail> listOrderDetail = new ArrayList<>();
-
-
+    private ApiInterface apiService;
+    public int checkOutPrice;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -36,6 +44,7 @@ public class ListOrderedAdapter extends RecyclerView.Adapter<ListOrderedAdapter.
         public TextView tvOrderedItemName;
         public TextView tvOrderedPrice;
         public Button btnDelete;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -47,47 +56,66 @@ public class ListOrderedAdapter extends RecyclerView.Adapter<ListOrderedAdapter.
 
     public ListOrderedAdapter(List<OrderDetail> listOrderDetail) {
         this.listOrderDetail = listOrderDetail;
+        for (OrderDetail item: listOrderDetail) {
+            checkOutPrice += item.getItemPrice() * item.getQuantity();
+        }
+        System.out.print("checkout price at create: " + checkOutPrice);
+        EventBus.getDefault().post(new MessageEvent(checkOutPrice));
+
+
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_ordered_listview,parent,false);
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
 
         final OrderDetail orderDetail = listOrderDetail.get(position);
-//        holder.tvOrderedItemName.setText("Table: " + String.valueOf(orderDetail.get()));
-//        if(table.getTableStatus() == 0)
-//        {
-//            holder.tvStatus.setTextColor(Color.GREEN);
-//            holder.tvStatus.setText("Available");
-//        }
-//        if(table.getTableStatus() == 1)
-//        {
-//            holder.tvStatus.setTextColor(Color.RED);
-//            holder.tvStatus.setText("Unvailable");
-//        }
-//        holder.btnChooseTable.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                SharedPreferences saveTableNumber =    v.getContext().getSharedPreferences("tableNumber", MODE_PRIVATE);
-//                SharedPreferences.Editor edit=saveTableNumber.edit();
-//                edit.putString("numbertable",String.valueOf(table.getTableID()));
-//                edit.commit();
-//                Intent intent = new Intent(v.getContext(), OrderMenuActivity.class);
-//                v.getContext().startActivity(intent);
-//            }
-//        });
-//
+
+        holder.tvOrderedItemName.setText(orderDetail.getItemName());
+        holder.tvOrderedPrice.setText(String.valueOf(orderDetail.getItemPrice()));
+        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                apiService = ApiClient.getClient().create(ApiInterface.class);
+                SharedPreferences infosave = v.getContext().getSharedPreferences("my_data", MODE_PRIVATE);
+                String api_key = infosave.getString("api", "");
+                System.out.print("order detail id: " + orderDetail.getOrderDetailID());
+                Call<ResponseInfomation> deleteOrderDetail = apiService.deleteOrderDetail(api_key,orderDetail.getOrderDetailID());
+                deleteOrderDetail.enqueue(new Callback<ResponseInfomation>() {
+                    @Override
+                    public void onResponse(Call<ResponseInfomation> call, Response<ResponseInfomation> response) {
+                        ResponseInfomation rp = response.body();
+                        if(rp.getError() == false)
+                        {
+                            Toast.makeText(v.getContext(), "Delete Item Complete", Toast.LENGTH_SHORT).show();
+                            checkOutPrice -= orderDetail.getItemPrice()*orderDetail.getQuantity();
+                            EventBus.getDefault().post(new MessageEvent(checkOutPrice));
+                        }
+
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseInfomation> call, Throwable t) {
+                        Log.e("DeleteOrderDetail", t.getLocalizedMessage());
+
+                    }
+                });
+                listOrderDetail.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position,listOrderDetail.size());
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return listOrderDetail.size();
     }
 
 }

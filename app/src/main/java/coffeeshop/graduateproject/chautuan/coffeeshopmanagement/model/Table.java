@@ -15,6 +15,17 @@ public class Table {
     @SerializedName("tableStatus")
     @Expose
     private Integer tableStatus;
+    @SerializedName("currentOrder")
+    @Expose
+    private Integer currentOrder;
+
+    public Integer getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void setCurrentOrder(Integer currentOrder) {
+        this.currentOrder = currentOrder;
+    }
 
     public Integer getTableID() {
         return tableID;

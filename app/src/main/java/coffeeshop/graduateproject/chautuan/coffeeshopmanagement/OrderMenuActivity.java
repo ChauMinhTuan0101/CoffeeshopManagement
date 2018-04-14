@@ -1,5 +1,6 @@
 package coffeeshop.graduateproject.chautuan.coffeeshopmanagement;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -65,13 +66,15 @@ public class OrderMenuActivity extends AppCompatActivity {
         setContentView(R.layout.order_main);
         SharedPreferences infosave = getSharedPreferences("my_data", MODE_PRIVATE);
         SharedPreferences tablenumber = getSharedPreferences("tableNumber", MODE_PRIVATE);
-        String number = tablenumber.getString("numbertable","1");
-        int usingTable = Integer.valueOf(number);
+        SharedPreferences orderoftable = getSharedPreferences("orderoftable",MODE_PRIVATE);
+        //edit.putString("numbertable",String.valueOf(table.getTableID()));
+        final String number = tablenumber.getString("numbertable","1");
+        final int usingTable = Integer.valueOf(number);
         ButterKnife.bind(this);
         apiService = ApiClient.getClient().create(ApiInterface.class);
         api_key = infosave.getString("api", "");
 
-        Call<ResponseInfomation> callNewOrder = apiService.createOrder(api_key,2,4,usingTable,"non");
+        Call<ResponseInfomation> callNewOrder = apiService.createOrder(api_key,2,4,usingTable,"non",1);
         callNewOrder.enqueue(new Callback<ResponseInfomation>() {
             @Override
             public void onResponse(Call<ResponseInfomation> call, Response<ResponseInfomation> response) {
@@ -135,16 +138,36 @@ public class OrderMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 for (OrderDetail od : lstOrder) {
                     od.setOrderID(latestOrder);
-                    Call<OrderDetail> callOrderDetail = apiService.createOrderDetail(api_key,od.getOrderID(),od.getItemID(),od.getItemPrice(),od.getQuantity());
+                    Call<OrderDetail> callOrderDetail = apiService.createOrderDetail(api_key,od.getOrderID(),od.getItemID(),od.getItemName(),od.getItemPrice(),od.getQuantity());
                     callOrderDetail.enqueue(new Callback<OrderDetail>() {
                         @Override
                         public void onResponse(Call<OrderDetail> call, Response<OrderDetail> response) {
 
 
-                            Toast.makeText(OrderMenuActivity.this, "Order Complete", Toast.LENGTH_SHORT).show();
+                            Call<ResponseInfomation> callChangeStatus = apiService.changeTableStatus(api_key,1,Integer.valueOf(number),latestOrder);
+                            callChangeStatus.enqueue(new Callback<ResponseInfomation>() {
+                                @Override
+                                public void onResponse(Call<ResponseInfomation> call, Response<ResponseInfomation> response) {
+                                    Log.i("ordermenuactivity",String.valueOf(latestOrder) + " " + usingTable);
+                                    SharedPreferences orderoftable = getSharedPreferences("orderoftable",MODE_PRIVATE);
+                                    SharedPreferences.Editor edit= orderoftable.edit();
+                                    edit.putInt(String.valueOf(usingTable),latestOrder);
+                                    edit.commit();
+                                    int s = orderoftable.getInt(String.valueOf(usingTable),latestOrder);
+                                    Log.i("test",String.valueOf(s) );
+                                    ResponseInfomation rp= response.body();
+                                    Log.i("Change table status", rp.getMessage());
+                                    Intent intent = new Intent(OrderMenuActivity.this, SubmitActivity.class);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseInfomation> call, Throwable t) {
+                                    Log.i("Error Response:", t.getLocalizedMessage());
+                                }
+                            });
                             Log.i("Response From Server:", response.body().toString());
                         }
-
                         @Override
                         public void onFailure(Call<OrderDetail> call, Throwable t) {
                             Log.e("Error Response: ", t.getLocalizedMessage());
@@ -161,6 +184,12 @@ public class OrderMenuActivity extends AppCompatActivity {
 
 
 
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)

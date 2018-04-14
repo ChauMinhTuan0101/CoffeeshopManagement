@@ -4,6 +4,7 @@ import java.util.List;
 
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.Bartender;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.LatestOrder;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.Order;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ResponseInfomation;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.LoginUser;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.MenuItem;
@@ -24,10 +25,25 @@ import retrofit2.http.POST;
 public interface ApiInterface {
 
     @FormUrlEncoded
+    @POST("updateserving")
+    Call<ResponseInfomation> updateServing(@Header("Authorization")String authToken,
+                                           @Field("serving") int serving,
+                                           @Field("orderid") int orderid);
+
+    @FormUrlEncoded
+    @POST("delete")
+    Call<ResponseInfomation> deleteOrderDetail(@Header("Authorization") String authToken,
+                                               @Field("orderdetailid") int orderDetailID);
+
+    @FormUrlEncoded
     @POST("changestatus")
     Call<ResponseInfomation> changeTableStatus(@Header("Authorization") String authToken,
                                                @Field("status") int status,
-                                               @Field("id") int id);
+                                               @Field("id") int id,
+                                               @Field("currentorder") int currentOrder);
+
+    @GET("getservingtable")
+    Call<List<Table>> getServingTable(@Header("Authorization")String authToken);
 
     @GET("gettable")
     Call<List<Table>> getTable();
@@ -46,22 +62,26 @@ public interface ApiInterface {
                                          @Field("idphucvu") int idPhucVu,
                                          @Field("idbartender") int idBartender,
                                          @Field("tablenumber") int tableNumber,
-                                         @Field("noticeinfo")String info );
+                                         @Field("noticeinfo")String info,
+                                         @Field("serving") int serving);
 
     @FormUrlEncoded
     @POST("addorderdetail")
     Call<OrderDetail> createOrderDetail(@Header("Authorization") String authToken,
                                         @Field("orderid") int orderID,
                                         @Field("itemid") int itemid,
+                                        @Field("itemname") String itemName,
                                         @Field("itemprice") int itemprice,
                                         @Field("quantity") int quantity);
+    @GET("getservingorder")
+    Call<List<Order>> getServingOrder(@Header("Authorization") String authToken);
 
     @GET("getallorderdetail")
     Call<OrderDetail> getAllOrderDetail(@Header("Authorization") String authToken);
 
     @FormUrlEncoded
     @POST("getorderdetailbyid")
-    Call<OrderDetail> getOrderDetailByID(@Header("Authorization") String authToken, @Field("orderid") int orderID);
+    Call<List<OrderDetail>> getOrderDetailByID(@Header("Authorization") String authToken, @Field("orderid") int orderID);
 
     @GET("getlistorder")
     Call<ResponseInfomation> getListOrder(@Header("Authorization") String authToken);

@@ -8,18 +8,32 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class OrderDetail {
+    @SerializedName("OrderDetailID")
+    @Expose
+    private Integer orderDetailID;
     @SerializedName("OrderID")
     @Expose
     private Integer orderID;
     @SerializedName("ItemID")
     @Expose
     private Integer itemID;
+    @SerializedName("ItemName")
+    @Expose
+    private String itemName;
     @SerializedName("ItemPrice")
     @Expose
     private Integer itemPrice;
     @SerializedName("Quantity")
     @Expose
     private Integer quantity;
+
+    public Integer getOrderDetailID() {
+        return orderDetailID;
+    }
+
+    public void setOrderDetailID(Integer orderDetailID) {
+        this.orderDetailID = orderDetailID;
+    }
 
     public Integer getOrderID() {
         return orderID;
@@ -51,5 +65,13 @@ public class OrderDetail {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 }

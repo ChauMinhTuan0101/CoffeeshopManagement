@@ -11,7 +11,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label= "@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -30,6 +30,11 @@
         <activity android:name=".OrderMenuActivity"></activity>
         <activity android:name=".AddMenuItemActitivy"></activity>
         <activity android:name=".ChooseTableActivity"></activity>
+        <activity android:name=".TableCheckOutActivity"></activity>
+        <activity android:name=".CheckOutActivity"></activity>
+        <activity android:name=".SubmitActivity"></activity>
+        <activity android:name=".BartenderMenu"></activity>
+        <activity android:name=".PendingActivity"></activity>
     </application>
 
 </manifest>

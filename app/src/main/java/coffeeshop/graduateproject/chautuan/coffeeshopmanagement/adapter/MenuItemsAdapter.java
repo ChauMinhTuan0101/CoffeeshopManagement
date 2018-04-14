@@ -123,7 +123,6 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item_listview,parent,false);
-
         return new MyViewHolder(itemView);
     }
 
@@ -140,11 +139,12 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyVi
             public void onClick(View v) {
                 OrderDetail od = new OrderDetail();
                 od.setOrderID(0);
+                //od.setOrderDetailID(0);
                 od.setItemID(menuItem.getItemID());
+                od.setItemName(menuItem.getItemName());
                 od.setItemPrice(menuItem.getItemPrice());
                 od.setQuantity(Integer.parseInt(holder.tvQuantity.getText().toString()));
                 selectedList.add(od);
-
                 totalPrice+= (menuItem.getItemPrice() * od.getQuantity());
 
                 EventBus.getDefault().post(new MessageEvent(totalPrice));

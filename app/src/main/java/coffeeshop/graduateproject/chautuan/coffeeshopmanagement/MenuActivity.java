@@ -61,8 +61,12 @@ public class MenuActivity extends AppCompatActivity {
         editor.putString("api", "");
         editor.commit();
         this.finish();
-
-
+    }
+    @OnClick(R.id.btnCurrentOrder)
+    public void CurrentOrder()
+    {
+        Intent intent = new Intent(getApplicationContext(),TableCheckOutActivity.class);
+        startActivity(intent);
     }
 
 }

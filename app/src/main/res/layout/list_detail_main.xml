@@ -6,24 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".OrderMenuActivity">
+    tools:context=".">
+
+
+    <!--<include-->
+    <!--layout="@layout/list_ordered_screen"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--/>-->
+
 
 
     <include
-        layout="@layout/order_screen"
-        android:layout_width="wrap_content"
+        layout="@layout/list_pending_screen"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/edtTotalPrice"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="7dp"
         android:layout_marginRight="7dp" />
 
 
-
-
     <Button
-        android:id="@+id/btnPlaceOrder"
+        android:id="@+id/btnDetailComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -31,20 +36,8 @@
         android:layout_alignParentStart="true"
         android:layout_gravity="bottom"
         android:background="@color/colorAccent"
-        android:text="Order" />
+        android:text="Complete" />
 
-    <EditText
-        android:id="@+id/edtTotalPrice"
-        android:layout_width="match_parent"
-        android:editable="false"
-        android:background="@drawable/layout_bg"
-        android:textColor="#FFFFFF"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btnPlaceOrder"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:ems="10"
-        android:text="Total Price: " />
 
 
 </RelativeLayout>

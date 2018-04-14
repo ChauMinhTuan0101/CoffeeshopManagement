@@ -1,5 +1,6 @@
 package coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -8,50 +9,83 @@ import com.google.gson.annotations.SerializedName;
 
 public class Order {
 
-    @SerializedName("OrderID") int orderID;
-    @SerializedName("ItemID") int itemID;
-    @SerializedName("ItemPrice") long itemPrice;
-    @SerializedName("Quantity") int quantity;
 
-    public Order(int orderID, int itemID, long itemPrice, int quantity) {
-        this.orderID = orderID;
-        this.itemID = itemID;
-        this.itemPrice = itemPrice;
-        this.quantity = quantity;
-    }
+    @SerializedName("OrderID")
+    @Expose
+    private Integer orderID;
+    @SerializedName("DateCreate")
+    @Expose
+    private String dateCreate;
+    @SerializedName("IDBartender")
+    @Expose
+    private Integer iDBartender;
+    @SerializedName("IDPhucVu")
+    @Expose
+    private Integer iDPhucVu;
+    @SerializedName("TableNumber")
+    @Expose
+    private Integer tableNumber;
+    @SerializedName("NoticeInfo")
+    @Expose
+    private String noticeInfo;
+    @SerializedName("Serving")
+    @Expose
+    private Integer serving;
 
-    public Order() {
-    }
-
-    public int getOrderID() {
+    public Integer getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(Integer orderID) {
         this.orderID = orderID;
     }
 
-    public int getItemID() {
-        return itemID;
+    public String getDateCreate() {
+        return dateCreate;
     }
 
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
+    public void setDateCreate(String dateCreate) {
+        this.dateCreate = dateCreate;
     }
 
-    public long getItemPrice() {
-        return itemPrice;
+    public Integer getIDBartender() {
+        return iDBartender;
     }
 
-    public void setItemPrice(long itemPrice) {
-        this.itemPrice = itemPrice;
+    public void setIDBartender(Integer iDBartender) {
+        this.iDBartender = iDBartender;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public Integer getIDPhucVu() {
+        return iDPhucVu;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setIDPhucVu(Integer iDPhucVu) {
+        this.iDPhucVu = iDPhucVu;
     }
+
+    public Integer getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(Integer tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+
+    public String getNoticeInfo() {
+        return noticeInfo;
+    }
+
+    public void setNoticeInfo(String noticeInfo) {
+        this.noticeInfo = noticeInfo;
+    }
+
+    public Integer getServing() {
+        return serving;
+    }
+
+    public void setServing(Integer serving) {
+        this.serving = serving;
+    }
+
 }
