@@ -1,6 +1,8 @@
 package coffeeshop.graduateproject.chautuan.coffeeshopmanagement.adapter;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +20,7 @@ import java.util.List;
 
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiClient;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiInterface;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.DetailActivity;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.R;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.bus.MessageEvent;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.Order;
@@ -79,25 +82,10 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
             public void onClick(final View v) {
                 apiService = ApiClient.getClient().create(ApiInterface.class);
                 SharedPreferences infosave = v.getContext().getSharedPreferences("my_data", MODE_PRIVATE);
-                String api_key = infosave.getString("api", "");
-                Call<List<OrderDetail>> getodByID = apiService.getOrderDetailByID(api_key,order.getOrderID());
-                getodByID.enqueue(new Callback<List<OrderDetail>>() {
-                    @Override
-                    public void onResponse(Call<List<OrderDetail>> call, Response<List<OrderDetail>> response) {
-                        List<OrderDetail> tmp = response.body();
-                        for(OrderDetail i : tmp)
-                        {
-                            OrderDetail od = i;
-                            listOrderDetail.add(od);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<OrderDetail>> call, Throwable t) {
-
-                    }
-                });
-
+                int orderid = order.getOrderID();
+                Intent intent = new Intent(v.getContext(),DetailActivity.class);
+                intent.putExtra("orderid", orderid);
+                v.getContext().startActivity(intent);
             }
         });
 

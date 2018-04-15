@@ -25,6 +25,12 @@ import retrofit2.http.POST;
 public interface ApiInterface {
 
     @FormUrlEncoded
+    @POST("updateprocessing")
+    Call<ResponseInfomation> updateProcess(@Header("Authorization") String authToken,
+                                           @Field("processing") int processing,
+                                           @Field("orderid")int orderid);
+
+    @FormUrlEncoded
     @POST("updateserving")
     Call<ResponseInfomation> updateServing(@Header("Authorization")String authToken,
                                            @Field("serving") int serving,
@@ -63,7 +69,8 @@ public interface ApiInterface {
                                          @Field("idbartender") int idBartender,
                                          @Field("tablenumber") int tableNumber,
                                          @Field("noticeinfo")String info,
-                                         @Field("serving") int serving);
+                                         @Field("serving") int serving,
+                                         @Field("processing")int processing);
 
     @FormUrlEncoded
     @POST("addorderdetail")

@@ -59,7 +59,6 @@ public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.MyVi
 
 
         public MyViewHolder(final View itemView) {
-
             super(itemView);
             //ButterKnife.bind(this, itemView);
             SharedPreferences infosave =    itemView.getContext().getSharedPreferences("my_data", MODE_PRIVATE);

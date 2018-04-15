@@ -6,19 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".">
+    tools:context=".DetailActivity">
 
 
     <!--<include-->
     <!--layout="@layout/list_ordered_screen"-->
     <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--/>-->
+    <!--android:layout_height="match_parent"- ->
+    <!-/>-->
 
 
 
     <include
-        layout="@layout/list_pending_screen"
+        layout="@layout/list_detail_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"

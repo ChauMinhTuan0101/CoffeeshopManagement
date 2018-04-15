@@ -74,7 +74,7 @@ public class OrderMenuActivity extends AppCompatActivity {
         apiService = ApiClient.getClient().create(ApiInterface.class);
         api_key = infosave.getString("api", "");
 
-        Call<ResponseInfomation> callNewOrder = apiService.createOrder(api_key,2,4,usingTable,"non",1);
+        Call<ResponseInfomation> callNewOrder = apiService.createOrder(api_key,2,4,usingTable,"non",1,1);
         callNewOrder.enqueue(new Callback<ResponseInfomation>() {
             @Override
             public void onResponse(Call<ResponseInfomation> call, Response<ResponseInfomation> response) {

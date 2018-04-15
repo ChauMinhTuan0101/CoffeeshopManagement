@@ -35,6 +35,7 @@
         <activity android:name=".SubmitActivity"></activity>
         <activity android:name=".BartenderMenu"></activity>
         <activity android:name=".PendingActivity"></activity>
+        <activity android:name=".DetailActivity"></activity>
     </application>
 
 </manifest>
