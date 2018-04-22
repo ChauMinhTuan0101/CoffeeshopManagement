@@ -9,6 +9,7 @@ import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ResponseIn
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.LoginUser;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.MenuItem;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.OrderDetail;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.StasticData;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.Table;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -23,6 +24,9 @@ import retrofit2.http.POST;
  */
 
 public interface ApiInterface {
+
+    @GET("getstatisbyitem")
+    Call<List<StasticData>> getStastic(@Header("Authorization") String authToken);
 
     @FormUrlEncoded
     @POST("updateprocessing")

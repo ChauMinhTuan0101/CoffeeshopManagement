@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiClient;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiInterface;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ListOrderDiffCallback;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.DetailActivity;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.R;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.bus.MessageEvent;
@@ -59,6 +61,7 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
     public PendingListAdapter(List<Order> listOrder) {
         this.listOrder = listOrder;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -74,7 +77,6 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
         final Order order = listOrder.get(position);
         final List<OrderDetail> listOrderDetail = new ArrayList<>();
-
         holder.tvPendingOrderID.setText("Order ID: " +String.valueOf(order.getOrderID()));
         holder.tvPendingTable.setText("Table Number: " +String.valueOf(order.getTableNumber()));
         holder.btnPendingChoose.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +93,15 @@ public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.
 
     }
 
+    public void updateListItem(List<Order> listNew)
+    {
+        final ListOrderDiffCallback diffCallback = new ListOrderDiffCallback(listOrder,listNew);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        this.listOrder.clear();
+        this.listOrder.addAll(listNew);
+        diffResult.dispatchUpdatesTo(this);
+
+    }
     @Override
     public int getItemCount() {
         return listOrder.size();

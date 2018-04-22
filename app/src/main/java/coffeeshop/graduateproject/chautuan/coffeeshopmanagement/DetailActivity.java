@@ -1,5 +1,6 @@
 package coffeeshop.graduateproject.chautuan.coffeeshopmanagement;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -91,6 +92,8 @@ public class DetailActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseInfomation> call, Response<ResponseInfomation> response) {
                 ResponseInfomation rp = response.body();
                 Toast.makeText(DetailActivity.this, "Processing Update Complete", Toast.LENGTH_SHORT).show();
+                finish();
+                startActivity(new Intent(DetailActivity.this,PendingActivity.class));
             }
 
             @Override
@@ -100,4 +103,10 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(DetailActivity.this,PendingActivity.class));
+
+    }
 }

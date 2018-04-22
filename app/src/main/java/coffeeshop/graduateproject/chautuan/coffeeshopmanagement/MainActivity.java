@@ -51,10 +51,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        for(Bartender b:lstBartender)
-//        {
-//            Toast.makeText(this, b.getBartenderName(), Toast.LENGTH_SHORT).show();
-//        }
 
     }
 

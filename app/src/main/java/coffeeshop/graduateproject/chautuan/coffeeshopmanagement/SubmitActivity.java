@@ -70,4 +70,11 @@ public class SubmitActivity extends AppCompatActivity {
 
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(SubmitActivity.this,MenuActivity.class));
+
+    }
 }

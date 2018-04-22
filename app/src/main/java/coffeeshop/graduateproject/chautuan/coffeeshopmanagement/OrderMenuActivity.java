@@ -59,7 +59,7 @@ public class OrderMenuActivity extends AppCompatActivity {
 
     //Button btnAddInAdapter;
     long totalPrice;
-
+    int userID;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +73,8 @@ public class OrderMenuActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         apiService = ApiClient.getClient().create(ApiInterface.class);
         api_key = infosave.getString("api", "");
-
-        Call<ResponseInfomation> callNewOrder = apiService.createOrder(api_key,2,4,usingTable,"non",1,1);
+        userID = infosave.getInt("userid",0);
+        Call<ResponseInfomation> callNewOrder = apiService.createOrder(api_key,userID,4,usingTable,"non",1,1);
         callNewOrder.enqueue(new Callback<ResponseInfomation>() {
             @Override
             public void onResponse(Call<ResponseInfomation> call, Response<ResponseInfomation> response) {
