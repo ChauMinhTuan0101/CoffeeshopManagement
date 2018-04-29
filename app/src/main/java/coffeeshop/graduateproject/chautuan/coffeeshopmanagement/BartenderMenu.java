@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Menu;
+import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -15,11 +16,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiInterface;
-import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.Bartender;
-import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.StasticData;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.ActivityStastic.StaticActivity;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.ActivityStastic.ViewAsQuarterActivity;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ChartObjectData.StasticData;
 
 /**
  * Created by chautuan on 4/14/18.
@@ -52,7 +51,7 @@ public class BartenderMenu extends AppCompatActivity {
     public void chooseStatical()
     {
         //executeGetPending();
-        Intent intent = new Intent(BartenderMenu.this,ChartActivity.class);
+        Intent intent = new Intent(BartenderMenu.this,MenuChartActivity.class);
         startActivity(intent);
         finish();
     }

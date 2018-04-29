@@ -1,11 +1,9 @@
-package coffeeshop.graduateproject.chautuan.coffeeshopmanagement;
+package coffeeshop.graduateproject.chautuan.coffeeshopmanagement.ActivityStastic;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -18,12 +16,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiClient;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiInterface;
-import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.adapter.PendingListAdapter;
-import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.Order;
-import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.StasticData;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.R;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ChartObjectData.StasticData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,11 +36,15 @@ public class StaticActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.pie_chart_layout);
         super.onCreate(savedInstanceState);
+
         infosave = getSharedPreferences("my_data", MODE_PRIVATE);
         api_key = infosave.getString("api", "");
         apiService = ApiClient.getClient().create(ApiInterface.class);
         pieChart = findViewById(R.id.piechart);
+
         pieChart.setUsePercentValues(true);
+
+
 
         Call<List<StasticData>> call = apiService.getStastic(api_key);
         call.enqueue(new Callback<List<StasticData>>() {
@@ -58,8 +58,26 @@ public class StaticActivity extends AppCompatActivity {
                         listOrder.add(i);
                     }
 
+
                     Log.i("table: ", String.valueOf(item.getItemName()));
                 }
+                Log.i("item count activity: ", String.valueOf(listOrder.size()));
+                System.out.println(String.valueOf(listOrder.size()));
+                ArrayList<Entry> yValues = new ArrayList<Entry>();
+                ArrayList<String> xValues = new ArrayList<String>() ;
+                i=0;
+                for (StasticData item: listOrder) {
+                    yValues.add(new Entry(item.getTotal(),i));
+                    xValues.add(item.getItemName());
+                    i++;
+                }
+                PieDataSet dataSet =new PieDataSet(yValues,"Stastic");
+                PieData pieData = new PieData(xValues,dataSet);
+                pieData.setValueFormatter(new PercentFormatter());
+                dataSet.setColors(ColorTemplate.PASTEL_COLORS);
+
+                pieChart.setData(pieData);
+                pieChart.animateXY(1400, 1400);
             }
             @Override
             public void onFailure(Call<List<StasticData>> call, Throwable t) {
@@ -67,23 +85,7 @@ public class StaticActivity extends AppCompatActivity {
             }
         });
 
-        Log.i("item count activity: ", String.valueOf(listOrder.size()));
-        System.out.println(String.valueOf(listOrder.size()));
-        ArrayList<Entry> yValues = new ArrayList<Entry>();
-        ArrayList<String> xValues = new ArrayList<String>() ;
-        i=0;
-        for (StasticData item: listOrder) {
-            yValues.add(new Entry(item.getTotal(),i));
-            xValues.add(item.getItemName());
-            i++;
-        }
-        PieDataSet dataSet =new PieDataSet(yValues,"Stastic");
-        PieData pieData = new PieData(xValues,dataSet);
-        pieData.setValueFormatter(new PercentFormatter());
-        dataSet.setColors(ColorTemplate.PASTEL_COLORS);
 
-        pieChart.setData(pieData);
-        pieChart.animateXY(1400, 1400);
 
     }
 

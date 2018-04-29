@@ -37,7 +37,12 @@
         <activity android:name=".PendingActivity"></activity>
         <activity android:name=".DetailActivity"></activity>
         <activity android:name=".ChartActivity"></activity>
-        <activity android:name=".StaticActivity"></activity>
+        <activity android:name=".ActivityStastic.StaticActivity"></activity>
+        <activity android:name=".ActivityStastic.ViewAsQuarterActivity"></activity>
+        <activity android:name=".MenuChartActivity"></activity>
+        <activity android:name=".ActivityStastic.BestTableActivity"></activity>
+        <activity android:name=".ActivityStastic.BestWaiterActivity"></activity>
+
     </application>
 
 </manifest>

@@ -14,4 +14,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string-array name="droplist_item">
+        <item>View as List Drink</item>
+        <item>View as Most Drink on each Quarter of This Year</item>
+        <item>View as Best Waiter</item>
+        <item>View as Best Table being used</item>
+    </string-array>
 </resources>

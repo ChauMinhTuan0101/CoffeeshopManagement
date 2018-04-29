@@ -100,10 +100,12 @@ public class AddMenuItemActitivy extends AppCompatActivity {
         List<String> spinnerItem = new ArrayList<>();
         spinnerItem.add("1 - Drink");
         spinnerItem.add("2 - Desert");
+
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
                 this,android.R.layout.simple_spinner_item,spinnerItem);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spItemType.setAdapter(spinnerAdapter);
+
 
     }
 

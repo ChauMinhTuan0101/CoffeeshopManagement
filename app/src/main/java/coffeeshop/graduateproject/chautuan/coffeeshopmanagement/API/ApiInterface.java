@@ -3,19 +3,21 @@ package coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API;
 import java.util.List;
 
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.Bartender;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ChartObjectData.BestTableData;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ChartObjectData.BestWaiterData;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ChartObjectData.QuarterData;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.LatestOrder;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.Order;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ResponseInfomation;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.LoginUser;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.MenuItem;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.OrderDetail;
-import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.StasticData;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ChartObjectData.StasticData;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.Table;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.HEAD;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -24,6 +26,19 @@ import retrofit2.http.POST;
  */
 
 public interface ApiInterface {
+
+    @GET("getallquarterdata")
+    Call<List<QuarterData>> getAllStasticQuarter(@Header("Authorization") String authToken);
+
+    @FormUrlEncoded
+    @POST("getstatisquarter")
+    Call<List<QuarterData>> getStasticQuarter(@Header("Authorization") String authToken, @Field("month") int month);
+
+    @GET("getbestwaiter")
+    Call<List<BestWaiterData>> getBestWaiter(@Header("Authorization") String authToken);
+
+    @GET("getbesttable")
+    Call<List<BestTableData>> getBestTable(@Header("Authorization") String authToken);
 
     @GET("getstatisbyitem")
     Call<List<StasticData>> getStastic(@Header("Authorization") String authToken);

@@ -1,4 +1,4 @@
-package coffeeshop.graduateproject.chautuan.coffeeshopmanagement;
+package coffeeshop.graduateproject.chautuan.coffeeshopmanagement.ActivityStastic;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,16 +16,17 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiClient;
 import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.API.ApiInterface;
-import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ChartObjectData.StasticData;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.R;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ChartObjectData.BestTableData;
+import coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ChartObjectData.BestWaiterData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChartActivity extends AppCompatActivity {
-    private List<StasticData> listOrder = new ArrayList<>();
+public class BestTableActivity extends AppCompatActivity {
+    private List<BestTableData> listTable = new ArrayList<>();
     String api_key;
     public ApiInterface apiService;
     SharedPreferences infosave;
@@ -38,59 +39,43 @@ public class ChartActivity extends AppCompatActivity {
         setContentView(R.layout.pie_chart_layout);
         infosave = getSharedPreferences("my_data", MODE_PRIVATE);
         api_key = infosave.getString("api", "");
-        ButterKnife.bind(this);
         apiService = ApiClient.getClient().create(ApiInterface.class);
         pieChart = findViewById(R.id.piechart);
-        executeGetPending();
-
-
-
-    }
-
-    private void executeGetPending() {
-        Call<List<StasticData>> call = apiService.getStastic(api_key);
-        call.enqueue(new Callback<List<StasticData>>() {
+        pieChart.setUsePercentValues(true);
+        Call<List<BestTableData>> call = apiService.getBestTable(api_key);
+        call.enqueue(new Callback<List<BestTableData>>() {
             @Override
-            public void onResponse(Call<List<StasticData>> call, Response<List<StasticData>> response) {
-                List<StasticData> listTmp = response.body();
-                for (StasticData item : listTmp) {
-                    StasticData i = item;
-                    if (!listOrder.contains(i)) {
-                        listOrder.add(i);
-                        //pendingListAdapter.notifyDataSetChanged();
+            public void onResponse(Call<List<BestTableData>> call, Response<List<BestTableData>> response) {
+                List<BestTableData> listTmp = response.body();
+                listTable.clear();
+                for (BestTableData item : listTmp) {
+                    BestTableData i = item;
+                    if(!listTable.contains(i)){
+                        listTable.add(i);
                     }
-
-
-                    Log.i("table: ", String.valueOf(item.getItemName()));
                 }
-                pieChart = findViewById(R.id.piechart);
-                pieChart.setUsePercentValues(true);
+                Log.i("item count activity: ", String.valueOf(listTable.size()));
+                System.out.println(String.valueOf(listTable.size()));
                 ArrayList<Entry> yValues = new ArrayList<Entry>();
                 ArrayList<String> xValues = new ArrayList<String>() ;
                 i=0;
-                for (StasticData item: listOrder) {
-                    yValues.add(new Entry(item.getTotal(),i));
-                    xValues.add(item.getItemName());
+                for (BestTableData item: listTable) {
+                    yValues.add(new Entry(item.getCount(),i));
+                    xValues.add(String.valueOf("Table "+ item.getTableNumber()));
                     i++;
                 }
-                PieDataSet dataSet =new PieDataSet(yValues,"Stastic");
+                PieDataSet dataSet =new PieDataSet(yValues,"Table Choices");
                 PieData pieData = new PieData(xValues,dataSet);
                 pieData.setValueFormatter(new PercentFormatter());
                 dataSet.setColors(ColorTemplate.PASTEL_COLORS);
-
                 pieChart.setData(pieData);
                 pieChart.animateXY(1400, 1400);
             }
-
             @Override
-            public void onFailure(Call<List<StasticData>> call, Throwable t) {
-
+            public void onFailure(Call<List<BestTableData>> call, Throwable t) {
+                Log.e("get table error", t.getLocalizedMessage());
             }
         });
-
-        Log.i("item count activity: ", String.valueOf(listOrder.size()));
-        System.out.println("mememememmemme:" + String.valueOf(listOrder.size()));
     }
-
 
 }

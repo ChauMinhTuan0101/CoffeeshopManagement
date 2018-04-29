@@ -1,4 +1,4 @@
-package coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model;
+package coffeeshop.graduateproject.chautuan.coffeeshopmanagement.model.ChartObjectData;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

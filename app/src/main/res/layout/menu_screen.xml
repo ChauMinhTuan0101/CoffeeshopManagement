@@ -21,7 +21,7 @@
         android:textColor="#FFF"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/btnOrderHistory"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="0.326"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,7 +49,7 @@
         android:drawableTop="@drawable/currentorder"
         android:text="Current Order"
         app:layout_constraintEnd_toStartOf="@+id/btnLogOut"
-        app:layout_constraintHorizontal_bias="0.673"
+        app:layout_constraintHorizontal_bias="0.326"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnOrder" />
 
@@ -67,7 +67,7 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.169"
+        app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCurrentOrder"
         app:layout_constraintVertical_bias="0.0" />
